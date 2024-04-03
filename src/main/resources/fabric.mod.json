@@ -3,16 +3,17 @@
 	"id": "bananabaking",
 	"version": "${version}",
 	"name": "Banana Baking",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A mod that adds banana themed items and blocks",
 	"authors": [
-		"Me!"
+		"DontNeg",
+		"SunnyBriArt"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/DontNeg/bananabaking-fabric",
+		"issues": "https://github.com/DontNeg/bananabaking-fabric/issues"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/bananabaking/icon.png",
+	"license": "MIT",
+	"icon": "assets/bananabaking/icon/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
