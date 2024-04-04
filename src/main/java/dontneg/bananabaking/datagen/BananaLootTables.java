@@ -23,6 +23,5 @@ public class BananaLootTables extends FabricBlockLootTableProvider {
                 .exactMatch(VanillaBeanCrop.AGE, 7));
         addDrop(BananaBlocks.VANILLA_CROP, cropDrops(
                 BananaBlocks.VANILLA_CROP, BananaItems.VANILLA_BEAN, BananaItems.VANILLA_BEAN_SEEDS, vanillaBeanDrops));
-
     }
 }
