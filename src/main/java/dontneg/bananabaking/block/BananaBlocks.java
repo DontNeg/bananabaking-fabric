@@ -17,6 +17,8 @@ public class BananaBlocks {
             new BananaCake(FabricBlockSettings.copyOf(Blocks.CAKE)));
     public static final Block VANILLA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"vanilla_crop"),
             new VanillaBeanCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
+    public static final Block BANANA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"banana_crop"),
+            new BananaCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
 
     @SuppressWarnings("SameParameterValue")
     private static Block registerBlock(String key, Block block){

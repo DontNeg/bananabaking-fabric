@@ -10,7 +10,6 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class BananaItems {
-
     public static final Item BANANA = registerItem("banana",
             new Item(new FabricItemSettings().food(BananaFood.BANANA)));
     public static final Item BANANA_BREAD = registerItem("banana_bread",
@@ -35,11 +34,15 @@ public class BananaItems {
             new Item(new FabricItemSettings().food(BananaFood.BANANA_DONUT)));
     public static final Item VANILLA_BEAN = registerItem("vanilla_bean",
             new Item(new FabricItemSettings()));
+    public static final Item BANANA_BUNCH = registerItem("banana_bunch",
+            new Item(new FabricItemSettings()));
     public static final Item VANILLA_BEAN_SEEDS = registerItem("vanilla_bean_seeds",
             new AliasedBlockItem(BananaBlocks.VANILLA_CROP, new FabricItemSettings()));
+    public static final Item BANANA_SEEDS = registerItem("banana_seeds",
+            new AliasedBlockItem(BananaBlocks.BANANA_CROP, new FabricItemSettings()));
 
 
-    private static Item registerItem(@SuppressWarnings("SameParameterValue") String name, Item item) {
+    private static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(BananaBaking.MODID, name), item);
     }
 

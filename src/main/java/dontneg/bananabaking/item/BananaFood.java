@@ -22,7 +22,7 @@ public class BananaFood {
     public static final FoodComponent BANANA_COOKIE = new FoodComponent.Builder().hunger(2).saturationModifier(0.25f)
             .statusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 80,1), 0.25f)
             .build();
-    public static final FoodComponent BANANA_PUDDING = new FoodComponent.Builder().hunger(8).saturationModifier(0.f)
+    public static final FoodComponent BANANA_PUDDING = new FoodComponent.Builder().hunger(8).saturationModifier(0.5f)
             .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 600,1), 0.25f)
             .build();
     public static final FoodComponent BANANA_SMOOTHIE = new FoodComponent.Builder().hunger(1).saturationModifier(0.1f)
