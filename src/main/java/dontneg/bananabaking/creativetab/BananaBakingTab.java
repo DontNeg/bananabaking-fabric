@@ -33,6 +33,7 @@ public class BananaBakingTab {
                         entries.add(BananaItems.VANILLA_BEAN);
                         entries.add(BananaItems.VANILLA_BEAN_SEEDS);
                         entries.add(BananaItems.BANANA_SEEDS);
+                        entries.add(BananaBlocks.BAKING_OVEN.asItem());
                     }).build());
 
 public static void registerCreativeTabs() {

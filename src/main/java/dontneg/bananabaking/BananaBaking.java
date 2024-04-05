@@ -1,8 +1,11 @@
 package dontneg.bananabaking;
 
 import dontneg.bananabaking.block.BananaBlocks;
+import dontneg.bananabaking.block.entity.BananaEntities;
 import dontneg.bananabaking.creativetab.BananaBakingTab;
 import dontneg.bananabaking.item.BananaItems;
+import dontneg.bananabaking.recipe.BananaRecipes;
+import dontneg.bananabaking.screen.BananaScreenHandlers;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -15,7 +18,10 @@ public class BananaBaking implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		BananaBakingTab.registerCreativeTabs();
-		BananaItems.registerModItems();
+		BananaItems.registerItems();
 		BananaBlocks.registerBlocks();
+		BananaScreenHandlers.registerScreenHandlers();
+		BananaEntities.registerBlockEntities();
+		BananaRecipes.registerRecipes();
 	}
 }

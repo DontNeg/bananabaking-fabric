@@ -46,7 +46,7 @@ public class BananaItems {
         return Registry.register(Registries.ITEM, new Identifier(BananaBaking.MODID, name), item);
     }
 
-    public static void registerModItems() {
+    public static void registerItems() {
         BananaBaking.LOGGER.info("Banana Baking - Item Initializing!");
 
     }
