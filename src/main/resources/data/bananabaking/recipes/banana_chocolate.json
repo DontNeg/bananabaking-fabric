@@ -1,0 +1,18 @@
+{
+  "type": "bananabaking:baking",
+  "ingredients": [
+    {
+      "item": "minecraft:cocoa_beans"
+    },
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "minecraft:stick"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "item": "bananabaking:banana_chocolate"
+  }
+}

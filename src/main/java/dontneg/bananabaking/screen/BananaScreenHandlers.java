@@ -13,6 +13,6 @@ public class BananaScreenHandlers {
                     new ExtendedScreenHandlerType<>(BakingScreenHandler::new));
 
     public static void registerScreenHandlers(){
-        BananaBaking.LOGGER.info("Banana Baking - Screen Handler Initializing!");
+
     }
 }

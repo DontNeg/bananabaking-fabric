@@ -1,9 +1,13 @@
 package dontneg.bananabaking.block.entity;
 
+import dontneg.bananabaking.block.BakingOven;
 import dontneg.bananabaking.recipe.BakingRecipe;
 import dontneg.bananabaking.screen.BakingScreenHandler;
+import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -26,13 +30,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
-
-    private static final int INPUT_SLOT = 0;
-    private static final int OUTPUT_SLOT = 1;
+    private static final HashSet<Block> fireBlocks = new HashSet<>();
+    private static final int OUTPUT_SLOT = 9;
 
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
@@ -63,18 +68,17 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
                 return 2;
             }
         };
-    }
-
-    public ItemStack getRenderStack() {
-        if(this.getStack(OUTPUT_SLOT).isEmpty()) {
-            return this.getStack(INPUT_SLOT);
-        } else {
-            return this.getStack(OUTPUT_SLOT);
-        }
+        fireBlocks.add(Blocks.FIRE);
+        fireBlocks.add(Blocks.CAMPFIRE);
+        fireBlocks.add(Blocks.LAVA);
+        fireBlocks.add(Blocks.SOUL_CAMPFIRE);
+        fireBlocks.add(Blocks.SOUL_FIRE);
+        fireBlocks.add(Blocks.LAVA_CAULDRON);
     }
 
     @Override
     public void markDirty() {
+        assert world != null;
         world.updateListeners(pos, getCachedState(), getCachedState(), 3);
         super.markDirty();
     }
@@ -118,18 +122,18 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         if(world.isClient()) {
             return;
         }
-
         if(isOutputSlotEmptyOrReceivable()) {
-            if(this.hasRecipe()) {
+            if(this.hasRecipe() && hasFire(this)) {
+                world.setBlockState(pos,world.getBlockState(pos).with(BakingOven.LIT,true));
                 this.increaseCraftProgress();
                 markDirty(world, pos, state);
-
                 if(hasCraftingFinished()) {
                     this.craftItem();
                     this.resetProgress();
                 }
             } else {
                 this.resetProgress();
+                world.setBlockState(pos,world.getBlockState(pos).with(BakingOven.LIT,false));
             }
         } else {
             this.resetProgress();
@@ -140,11 +144,14 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     private void resetProgress() {
         this.progress = 0;
     }
+    @SuppressWarnings({"OptionalGetWithoutIsPresent","UnstableApiUsage"})
 
     private void craftItem() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
 
-        this.removeStack(INPUT_SLOT, 1);
+        for(int i = 0;i<9;i++){
+            this.removeStack(i, 1);
+        }
 
         this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
                 getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
@@ -165,21 +172,28 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
                 && canInsertItemIntoOutputSlot(recipe.get().value().getResult(null).getItem());
     }
 
+    @SuppressWarnings("DataFlowIssue")
+    private static boolean hasFire(BakingOvenEntity entity){
+        return fireBlocks.contains(entity.world.getBlockState(entity.getPos().down()).getBlock());
+    }
+
     private Optional<RecipeEntry<BakingRecipe>> getCurrentRecipe() {
         SimpleInventory inv = new SimpleInventory(this.size());
         for(int i = 0; i < this.size(); i++) {
             inv.setStack(i, this.getStack(i));
         }
-
-        return getWorld().getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, inv, getWorld());
+        return Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, inv, getWorld());
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
         return this.getStack(OUTPUT_SLOT).getItem() == item || this.getStack(OUTPUT_SLOT).isEmpty();
+//        return true;
     }
 
+
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        return this.getStack(OUTPUT_SLOT).getCount() + result.getCount() <= getStack(OUTPUT_SLOT).getMaxCount();
+        return this.getStack(OUTPUT_SLOT).getCount() + result.getCount() <= 64;
+//        return true;
     }
 
     private boolean isOutputSlotEmptyOrReceivable() {

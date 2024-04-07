@@ -1,0 +1,27 @@
+{
+  "type": "bananabaking:baking",
+  "ingredients": [
+    {
+      "item": "minecraft:milk_bucket"
+    },
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "bananabaking:vanilla_extract"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "item": "bananabaking:banana_pudding"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:banana_bunch_shapeless"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "tick"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:banana_bunch_shapeless"
+    ]
+  }
+}

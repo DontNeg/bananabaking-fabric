@@ -17,8 +17,9 @@ public class BananaBakingTab {
     public static final ItemGroup NOTEBLOCK_GROUP = Registry.register(Registries.ITEM_GROUP,
             new Identifier(BananaBaking.MODID, "banana_baking"),
             FabricItemGroup.builder().displayName(Text.translatable("itemGroup.bananabaking"))
-                    .icon(() -> new ItemStack(BananaItems.BANANA)).entries((displayContext, entries) -> {
+                    .icon(() -> new ItemStack(BananaItems.BANANA_BREAD)).entries((displayContext, entries) -> {
                         entries.add(BananaItems.BANANA);
+                        entries.add(BananaItems.BANANA_BUNCH);
                         entries.add(BananaItems.BANANA_BREAD);
                         entries.add(BananaItems.BANANA_CHOCOLATE);
                         entries.add(BananaItems.BANANA_COOKIE);
@@ -30,13 +31,14 @@ public class BananaBakingTab {
                         entries.add(BananaItems.BANANA_PIE);
                         entries.add(BananaItems.BANANA_DONUT);
                         entries.add(BananaBlocks.BANANA_CAKE.asItem());
-                        entries.add(BananaItems.VANILLA_BEAN);
+                        entries.add(BananaItems.VANILLA_BEANS);
+                        entries.add(BananaItems.VANILLA_EXTRACT);
                         entries.add(BananaItems.VANILLA_BEAN_SEEDS);
                         entries.add(BananaItems.BANANA_SEEDS);
                         entries.add(BananaBlocks.BAKING_OVEN.asItem());
                     }).build());
 
-public static void registerCreativeTabs() {
-        BananaBaking.LOGGER.info("Banana Baking - Creative Tab Initializing!");
+    public static void registerCreativeTabs() {
+
     }
 }

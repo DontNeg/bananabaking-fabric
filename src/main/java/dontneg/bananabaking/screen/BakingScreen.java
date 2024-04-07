@@ -30,15 +30,13 @@ public class BakingScreen extends HandledScreen<BakingScreenHandler> {
         RenderSystem.setShaderTexture(0, TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-
         context.drawTexture(TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
-
         renderProgressArrow(context, x, y);
     }
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {
-            context.drawTexture(TEXTURE, x + 85, y + 30, 176, 0, handler.getScaledProgress(),20 );
+            context.drawTexture(TEXTURE, x+85, y + 34, 177, 13, handler.getScaledProgress(),30 );
         }
     }
 

@@ -29,19 +29,23 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
+    public boolean isIgnoredInRecipeBook() {
+        return true;
+    }
+
+    @Override
     @SuppressWarnings("UnstableApiUsage")
     public boolean matches(SimpleInventory inventory, World world) {
-        if(world.isClient()) {
-            return false;
-        }
-        List<ItemStack> nonEmptyStacks = new ArrayList<>(inventory.size());
-        for (int i = 0; i < inventory.size(); ++i) {
-            ItemStack stack = inventory.getStack(i);
-            if (!stack.isEmpty()) {
-                nonEmptyStacks.add(stack);
+        if(world.isClient()) return false;
+        List<ItemStack> inputs = new ArrayList<>();
+        for(int j = 0; j < 9; ++j) {
+            ItemStack itemstack = inventory.getStack(j);
+            if (!itemstack.isEmpty()) {
+                inputs.add(itemstack);
             }
         }
-        return ShapelessMatch.isMatch(nonEmptyStacks, recipeItems);
+        return inputs.size() == this.recipeItems.size() &&
+                ShapelessMatch.isMatch(inputs, this.recipeItems);
     }
 
     @Override
@@ -78,18 +82,19 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
 
     public static class Type implements RecipeType<BakingRecipe> {
         public static final Type INSTANCE = new Type();
-        public static final String ID = "gem_polishing";
+        public static final String ID = "baking";
     }
 
     public static class Serializer implements RecipeSerializer<BakingRecipe> {
         public static final Serializer INSTANCE = new Serializer();
-        public static final String ID = "gem_polishing";
+        public static final String ID = "baking";
 
         public static final Codec<BakingRecipe> CODEC = RecordCodecBuilder.create(in -> in.group(
                 validateAmount(Ingredient.DISALLOW_EMPTY_CODEC, 9).fieldOf("ingredients").forGetter(BakingRecipe::getIngredients),
                 ItemStack.RECIPE_RESULT_CODEC.fieldOf("output").forGetter(r -> r.output)
         ).apply(in, BakingRecipe::new));
 
+        @SuppressWarnings("SameParameterValue")
         private static Codec<List<Ingredient>> validateAmount(Codec<Ingredient> delegate, int max) {
             return Codecs.validate(Codecs.validate(
                     delegate.listOf(), list -> list.size() > max ? DataResult.error(() -> "Recipe has too many ingredients!") : DataResult.success(list)
@@ -104,11 +109,7 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
         @Override
         public BakingRecipe read(PacketByteBuf buf) {
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
-
-            for(int i = 0; i < inputs.size(); i++) {
-                inputs.set(i, Ingredient.fromPacket(buf));
-            }
-
+            inputs.replaceAll(ignored -> Ingredient.fromPacket(buf));
             ItemStack output = buf.readItemStack();
             return new BakingRecipe(inputs, output);
         }
@@ -116,11 +117,9 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
         @Override
         public void write(PacketByteBuf buf, BakingRecipe recipe) {
             buf.writeInt(recipe.getIngredients().size());
-
             for (Ingredient ingredient : recipe.getIngredients()) {
                 ingredient.write(buf);
             }
-
             buf.writeItemStack(recipe.getResult(null));
         }
     }

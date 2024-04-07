@@ -2,11 +2,9 @@ package dontneg.bananabaking;
 
 import dontneg.bananabaking.block.BananaBlocks;
 import dontneg.bananabaking.screen.BakingScreen;
-import dontneg.bananabaking.screen.BakingScreenHandler;
 import dontneg.bananabaking.screen.BananaScreenHandlers;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 

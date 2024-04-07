@@ -15,6 +15,6 @@ public class BananaEntities {
                             BananaBlocks.BAKING_OVEN).build());
 
     public static void registerBlockEntities() {
-        BananaBaking.LOGGER.info("Banana Baking - Block Entity Initializing!");
+
     }
 }

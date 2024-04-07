@@ -23,7 +23,7 @@ public class BakingScreenHandler extends ScreenHandler {
     }
 
     public BakingScreenHandler(int syncId, PlayerInventory playerInventory,
-                                     BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
+                               BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
         super(BananaScreenHandlers.BAKING_OVEN_SCREEN_HANDLER, syncId);
         checkSize(((Inventory) blockEntity), 10);
         this.inventory = ((Inventory) blockEntity);
@@ -40,12 +40,10 @@ public class BakingScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 6, 20, 52));
         this.addSlot(new Slot(inventory, 7, 38, 52));
         this.addSlot(new Slot(inventory, 8, 56, 52));
-        this.addSlot(new Slot(inventory, 9, 126, 35));
-
+        this.addSlot(new BakingSlot(inventory, 9, 126, 35));
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-
         addProperties(arrayPropertyDelegate);
     }
 
@@ -55,9 +53,8 @@ public class BakingScreenHandler extends ScreenHandler {
 
     public int getScaledProgress() {
         int progress = this.propertyDelegate.get(0);
-        int maxProgress = this.propertyDelegate.get(1);  // Max Progress
-        int progressArrowSize = 23; // This is the width in pixels of your arrow
-
+        int maxProgress = this.propertyDelegate.get(1);
+        int progressArrowSize = 23;
         return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
     }
 
@@ -65,7 +62,7 @@ public class BakingScreenHandler extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int invSlot) {
         ItemStack newStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(invSlot);
-        if (slot != null && slot.hasStack()) {
+        if (slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
             if (invSlot < this.inventory.size()) {
@@ -75,14 +72,12 @@ public class BakingScreenHandler extends ScreenHandler {
             } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
                 return ItemStack.EMPTY;
             }
-
             if (originalStack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);
             } else {
                 slot.markDirty();
             }
         }
-
         return newStack;
     }
 

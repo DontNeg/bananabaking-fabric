@@ -1,0 +1,12 @@
+{
+  "type": "bananabaking:baking",
+  "ingredients": [
+    {
+      "item": "bananabaking:banana_oiled"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "item": "bananabaking:banana_fried"
+  }
+}

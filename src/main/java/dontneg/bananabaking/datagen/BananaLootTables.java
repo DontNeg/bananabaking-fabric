@@ -22,7 +22,7 @@ public class BananaLootTables extends FabricBlockLootTableProvider {
                 .properties(StatePredicate.Builder.create()
                 .exactMatch(VanillaBeanCrop.AGE, 7));
         addDrop(BananaBlocks.VANILLA_CROP, cropDrops(
-                BananaBlocks.VANILLA_CROP, BananaItems.VANILLA_BEAN, BananaItems.VANILLA_BEAN_SEEDS, vanillaBeanDrops));
+                BananaBlocks.VANILLA_CROP, BananaItems.VANILLA_BEANS, BananaItems.VANILLA_BEAN_SEEDS, vanillaBeanDrops));
         //Banana Crop
         BlockStatePropertyLootCondition.Builder bananaDrops = BlockStatePropertyLootCondition
                 .builder(BananaBlocks.BANANA_CROP)

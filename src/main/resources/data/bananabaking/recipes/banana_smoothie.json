@@ -1,0 +1,21 @@
+{
+  "type": "bananabaking:baking",
+  "ingredients": [
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "minecraft:ice"
+    },
+    {
+      "item": "minecraft:sweet_berries"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "item": "bananabaking:banana_smoothie"
+  }
+}

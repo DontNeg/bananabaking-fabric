@@ -14,7 +14,7 @@ public interface ImplementedInventory extends SidedInventory {
     static ImplementedInventory of(DefaultedList<ItemStack> items) {
         return () -> items;
     }
-
+    @SuppressWarnings("unused")
     static ImplementedInventory ofSize(int size) {
         return of(DefaultedList.ofSize(size, ItemStack.EMPTY));
     }

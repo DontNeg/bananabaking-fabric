@@ -19,7 +19,7 @@ public class BananaItems {
     public static final Item BANANA_PIE_SLICE = registerItem("banana_pie_slice",
             new Item(new FabricItemSettings().food(BananaFood.BANANA_PIE_SLICE)));
     public static final Item BANANA_SMOOTHIE = registerItem("banana_smoothie",
-            new Item(new FabricItemSettings().food(BananaFood.BANANA_SMOOTHIE)));
+            new Item(new FabricItemSettings().food(BananaFood.BANANA_SMOOTHIE).maxCount(16)));
     public static final Item BANANA_CHOCOLATE = registerItem("banana_chocolate",
             new Item(new FabricItemSettings().food(BananaFood.BANANA_CHOCOLATE)));
     public static final Item BANANA_OILED = registerItem("banana_oiled",
@@ -29,10 +29,10 @@ public class BananaItems {
     public static final Item BANANA_COOKIE = registerItem("banana_cookie",
             new Item(new FabricItemSettings().food(BananaFood.BANANA_COOKIE)));
     public static final Item BANANA_PUDDING = registerItem("banana_pudding",
-            new Item(new FabricItemSettings().food(BananaFood.BANANA_PUDDING)));
+            new Item(new FabricItemSettings().food(BananaFood.BANANA_PUDDING).maxCount(16)));
     public static final Item BANANA_DONUT = registerItem("banana_donut",
             new Item(new FabricItemSettings().food(BananaFood.BANANA_DONUT)));
-    public static final Item VANILLA_BEAN = registerItem("vanilla_bean",
+    public static final Item VANILLA_BEANS = registerItem("vanilla_beans",
             new Item(new FabricItemSettings()));
     public static final Item BANANA_BUNCH = registerItem("banana_bunch",
             new Item(new FabricItemSettings()));
@@ -40,6 +40,8 @@ public class BananaItems {
             new AliasedBlockItem(BananaBlocks.VANILLA_CROP, new FabricItemSettings()));
     public static final Item BANANA_SEEDS = registerItem("banana_seeds",
             new AliasedBlockItem(BananaBlocks.BANANA_CROP, new FabricItemSettings()));
+    public static final Item VANILLA_EXTRACT = registerItem("vanilla_extract",
+            new Item(new FabricItemSettings().food(BananaFood.VANILLA_EXTRACT)));
 
 
     private static Item registerItem(String name, Item item) {
@@ -47,7 +49,5 @@ public class BananaItems {
     }
 
     public static void registerItems() {
-        BananaBaking.LOGGER.info("Banana Baking - Item Initializing!");
-
     }
 }

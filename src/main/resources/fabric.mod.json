@@ -24,6 +24,9 @@
 		],
 		"fabric-datagen": [
 			"dontneg.bananabaking.BananaBakingDataGenerator"
+		],
+		"rei_client": [
+			"dontneg.bananabaking.rei.BakingREIClientPlugin"
 		]
 	},
 	"mixins": [

@@ -1,0 +1,21 @@
+{
+  "type": "bananabaking:baking",
+  "ingredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "bananabaking:banana"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "output": {
+    "count": 8,
+    "item": "bananabaking:banana_cookie"
+  }
+}

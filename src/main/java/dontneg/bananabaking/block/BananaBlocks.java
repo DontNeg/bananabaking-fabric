@@ -14,26 +14,32 @@ import net.minecraft.util.Identifier;
 public class BananaBlocks {
 
     public static final Block BANANA_CAKE = registerBlock("banana_cake",
-            new BananaCake(FabricBlockSettings.copyOf(Blocks.CAKE)));
+            new BananaCake(FabricBlockSettings.copyOf(Blocks.CAKE)),1);
     public static final Block VANILLA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"vanilla_crop"),
             new VanillaBeanCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
     public static final Block BANANA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"banana_crop"),
             new BananaCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
     public static final Block BAKING_OVEN = registerBlock("baking_oven",
-            new BakingOven(FabricBlockSettings.copyOf(Blocks.BRICKS).nonOpaque()));
+            new BakingOven(FabricBlockSettings.copyOf(Blocks.BRICKS).nonOpaque().luminance(state -> state.get(BakingOven.LIT) ? 10 : 0)));
 
     @SuppressWarnings("SameParameterValue")
     private static Block registerBlock(String key, Block block){
-        registerBlockItem(key, block);
+        registerBlockItem(key, block,64);
         return Registry.register(Registries.BLOCK, new Identifier(BananaBaking.MODID, key), block);
     }
 
-    private static void registerBlockItem(String key, Block block){
+    @SuppressWarnings("SameParameterValue")
+    private static Block registerBlock(String key, Block block, int maxCount){
+        registerBlockItem(key, block, maxCount);
+        return Registry.register(Registries.BLOCK, new Identifier(BananaBaking.MODID, key), block);
+    }
+
+    private static void registerBlockItem(String key, Block block, int maxCount){
         Registry.register(Registries.ITEM, new Identifier(BananaBaking.MODID, key),
-                new BlockItem(block, new FabricItemSettings()));
+                new BlockItem(block, new FabricItemSettings().maxCount(maxCount)));
     }
 
     public static void registerBlocks(){
-        BananaBaking.LOGGER.info("Banana Baking - Block Initializing!");
+
     }
 }

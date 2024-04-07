@@ -23,5 +23,6 @@ public class BananaBaking implements ModInitializer {
 		BananaScreenHandlers.registerScreenHandlers();
 		BananaEntities.registerBlockEntities();
 		BananaRecipes.registerRecipes();
+		LOGGER.info("Banana Baking - Mod Initializing");
 	}
 }
