@@ -20,7 +20,9 @@ public class BananaCrop extends CropBlock {
             Block.createCuboidShape(0.0, 6.0, 0.0, 16.0, 16.0, 16.0),
             Block.createCuboidShape(0.0, 4.0, 0.0, 16.0, 16.0, 16.0),
             Block.createCuboidShape(0.0, 2.0, 0.0, 16.0, 16.0, 16.0),
-            Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)};
+            Block.createCuboidShape(0.0, 0.0, 0.0, 16.0, 16.0, 16.0)
+    };
+
     public BananaCrop(Settings settings) {
         super(settings);
     }

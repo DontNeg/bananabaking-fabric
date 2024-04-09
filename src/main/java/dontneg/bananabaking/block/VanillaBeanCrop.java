@@ -1,6 +1,5 @@
 package dontneg.bananabaking.block;
 
-import dontneg.bananabaking.BananaBaking;
 import dontneg.bananabaking.item.BananaItems;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
@@ -67,7 +66,7 @@ public class VanillaBeanCrop extends CropBlock {
                 float f = getAvailableMoisture(this, world, pos);
                 if (random.nextInt((int)(25.0F / f) + 1) == 0) {
                     if(currentAge == MAX_CROP_AGE && world.getBlockState(pos.up(1)).isOf(Blocks.AIR) &&
-                        world.getBlockState(pos.down(1)).isOf(Blocks.FARMLAND)) {
+                            world.getBlockState(pos.down(1)).isOf(Blocks.FARMLAND)) {
                         this.sproutCrop(world,pos);
                     } else if(currentAge!= MAX_CROP_AGE) {
                         this.applyGrowth(world,pos,state);
@@ -127,9 +126,6 @@ public class VanillaBeanCrop extends CropBlock {
     @SuppressWarnings("deprecation")
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-        BananaBaking.LOGGER.info("Max Age: " + getMaxAge() +
-                "\nIs Fertilizable: " + isFertilizable(world, pos, state) +
-                "\nIs Mature: " + isMature(state));
         if(isFertilizable(world,pos,state)){
             return ActionResult.PASS;
 
@@ -140,7 +136,7 @@ public class VanillaBeanCrop extends CropBlock {
     @Override
     public int getMaxAge() {
         if(this.getDefaultState().get(STAGE)==0 &&
-        !this.getDefaultState().get(SPROUTED)){
+                !this.getDefaultState().get(SPROUTED)){
             return MAX_CROP_AGE+1;
         }
         return MAX_CROP_AGE;

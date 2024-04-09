@@ -16,9 +16,9 @@ public class BananaBlocks {
     public static final Block BANANA_CAKE = registerBlock("banana_cake",
             new BananaCake(FabricBlockSettings.copyOf(Blocks.CAKE)),1);
     public static final Block VANILLA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"vanilla_crop"),
-            new VanillaBeanCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
+            new VanillaBeanCrop(FabricBlockSettings.copyOf(Blocks.WHEAT).burnable()));
     public static final Block BANANA_CROP = Registry.register(Registries.BLOCK,new Identifier(BananaBaking.MODID,"banana_crop"),
-            new BananaCrop(FabricBlockSettings.copyOf(Blocks.WHEAT)));
+            new BananaCrop(FabricBlockSettings.copyOf(Blocks.WHEAT).nonOpaque().burnable()));
     public static final Block BAKING_OVEN = registerBlock("baking_oven",
             new BakingOven(FabricBlockSettings.copyOf(Blocks.BRICKS).nonOpaque().luminance(state -> state.get(BakingOven.LIT) ? 10 : 0)));
 

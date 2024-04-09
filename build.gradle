@@ -13,6 +13,7 @@ base {
 repositories {
 	maven { url "https://maven.shedaniel.me" }
 	maven { url "https://maven.terraformersmc.com" }
+	maven { url "https://maven.ryanliptak.com/" }
 }
 
 fabricApi {
@@ -29,6 +30,12 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:14.0.687"
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:14.0.687"
+	modCompileOnly("squeek.appleskin:appleskin-fabric:mc1.20.3-2.5.1") {
+		transitive = false
+	}
+	modRuntimeOnly("squeek.appleskin:appleskin-fabric:mc1.20.3-2.5.1") {
+		exclude module: 'modmenu'
+	}
 	modApi("me.shedaniel.cloth:cloth-config-fabric:13.0.114") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
