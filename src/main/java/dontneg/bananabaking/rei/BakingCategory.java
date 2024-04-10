@@ -62,7 +62,6 @@ public class BakingCategory implements DisplayCategory<BasicDisplay> {
                 .entries(display.getInputEntries().get(7)));
         widgets.add(Widgets.createSlot(new Point(startPoint.x - 32, startPoint.y + 12))
                 .entries(display.getInputEntries().get(8)));
-
         widgets.add(Widgets.createSlot(new Point(startPoint.x + 38, startPoint.y - 5))
                 .markOutput().disableBackground().entries(display.getOutputEntries().get(0)));
         return widgets;
