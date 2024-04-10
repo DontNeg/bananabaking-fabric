@@ -1,6 +1,6 @@
 {
-	"parent": "bananabaking:block/baking_cross",
+	"parent": "bananabaking:block/banana_crop",
 	"textures": {
-		"cross": "bananabaking:block/banana_stage7"
+		"cross": "bananabaking:block/banana_age0"
 	}
 }

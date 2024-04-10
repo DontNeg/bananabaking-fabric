@@ -12,6 +12,7 @@ public class BananaBakingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(BananaBlocks.VANILLA_CROP, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(BananaBlocks.BANANA_CROP, RenderLayer.getCutout());
         HandledScreens.register(BananaScreenHandlers.BAKING_OVEN_SCREEN_HANDLER, BakingScreen::new);
     }
 }
