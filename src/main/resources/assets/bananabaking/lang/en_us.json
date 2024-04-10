@@ -1,6 +1,5 @@
 {
  "item.bananabaking.banana_bread": "Banana Bread",
- "item.bananabaking.banana_dough": "Banana Dough",
  "item.bananabaking.banana_pie": "Banana Pie",
  "item.bananabaking.banana_fried": "Fried Banana",
  "item.bananabaking.banana_oiled": "Oiled Banana",
@@ -16,21 +15,13 @@
  "item.bananabaking.banana_chocolate": "Chocolate Banana",
  "item.bananabaking.banana_smoothie": "Banana Smoothie",
  "item.bananabaking.chocolate_bucket": "Chocolate Bucket",
- "item.bananabaking.banana_nuke": "Banana Nuke",
  "item.bananabaking.banana_bunch": "Banana Bunch",
- "item.bananabaking.compressed_banana_one": "Compressed Banana Bunch",
- "item.bananabaking.compressed_banana_two": "Double Compressed Banana Bunch",
- "item.bananabaking.compressed_banana_three": "Triple Compressed Banana Bunch",
- "item.bananabaking.compressed_banana_four": "Quadruple Compressed Banana Bunch",
 
 
  "itemGroup.bananabaking": "Banana Baking",
 
  "block.bananabaking.vanilla_bean_crop": "Vanilla Bean Crop",
  "block.bananabaking.banana_crop": "Banana Crop",
- "block.bananabaking.banana_nuke": "Banana Nuke",
  "block.bananabaking.baking_oven": "Baking Oven",
- "block.bananabaking.banana_cake": "Banana Cake",
-
- "fluid_type.bananabaking.chocolate_fluid_type": "Chocolate"
+ "block.bananabaking.banana_cake": "Banana Cake"
 }
