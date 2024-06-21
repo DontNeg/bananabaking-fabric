@@ -3,7 +3,6 @@ package dontneg.bananabaking.block.entity;
 import dontneg.bananabaking.block.BakingOven;
 import dontneg.bananabaking.recipe.BakingRecipe;
 import dontneg.bananabaking.screen.BakingScreenHandler;
-import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -144,8 +143,8 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     private void resetProgress() {
         this.progress = 0;
     }
-    @SuppressWarnings({"OptionalGetWithoutIsPresent","UnstableApiUsage"})
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void craftItem() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
 
@@ -187,13 +186,11 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
         return this.getStack(OUTPUT_SLOT).getItem() == item || this.getStack(OUTPUT_SLOT).isEmpty();
-//        return true;
     }
 
 
     private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
         return this.getStack(OUTPUT_SLOT).getCount() + result.getCount() <= 64;
-//        return true;
     }
 
     private boolean isOutputSlotEmptyOrReceivable() {

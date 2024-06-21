@@ -2,7 +2,6 @@ package dontneg.bananabaking.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CakeBlock;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
