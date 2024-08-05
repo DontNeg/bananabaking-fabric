@@ -14,7 +14,8 @@ public class BananaFood {
             .build();
     public static final FoodComponent BANANA_PIE_SLICE = new FoodComponent.Builder().nutrition(3).saturationModifier(0.2f)
             .build();
-    public static final FoodComponent BANANA_CHOCOLATE = new FoodComponent.Builder().nutrition(7).saturationModifier(0.4f).usingConvertsTo(Items.STICK)
+    public static final FoodComponent BANANA_CHOCOLATE = new FoodComponent.Builder().nutrition(7).saturationModifier(0.4f)
+            .usingConvertsTo(Items.STICK)
             .build();
     public static final FoodComponent BANANA_FRIED = new FoodComponent.Builder().nutrition(7).saturationModifier(0.4f)
             .build();
@@ -28,12 +29,15 @@ public class BananaFood {
             .build();
     public static final FoodComponent BANANA_SMOOTHIE = new FoodComponent.Builder().nutrition(1).saturationModifier(0.1f)
             .alwaysEdible()
+            .usingConvertsTo(Items.GLASS_BOTTLE)
             .statusEffect(new StatusEffectInstance(StatusEffects.SPEED, 300,1), 1f)
             .build();
     public static final FoodComponent BANANA_OILED = new FoodComponent.Builder().nutrition(6).saturationModifier(0.35f)
             .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 1200,0), 1f)
             .build();
     public static final FoodComponent VANILLA_EXTRACT = new FoodComponent.Builder().nutrition(1).saturationModifier(0.5f)
+            .alwaysEdible()
+            .usingConvertsTo(Items.GLASS_BOTTLE)
             .statusEffect(new StatusEffectInstance(StatusEffects.HUNGER, 1200,0), 1f)
             .build();
 

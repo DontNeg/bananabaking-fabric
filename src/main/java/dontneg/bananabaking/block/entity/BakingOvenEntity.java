@@ -1,6 +1,5 @@
 package dontneg.bananabaking.block.entity;
 
-import dontneg.bananabaking.BananaBaking;
 import dontneg.bananabaking.block.BakingOven;
 import dontneg.bananabaking.codec.BakingData;
 import dontneg.bananabaking.recipe.BakingRecipe;
@@ -124,7 +123,7 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         if(world.isClient()) {
             return;
         }
-        if(isOutputSlotEmptyOrReceivable()) {
+        if(this.getStack(OUTPUT_SLOT).isEmpty() || this.getStack(OUTPUT_SLOT).getCount() < this.getStack(OUTPUT_SLOT).getMaxCount()) {
             if(this.hasRecipe() && hasFire(this)) {
                 world.setBlockState(pos,world.getBlockState(pos).with(BakingOven.LIT,true));
                 this.increaseCraftProgress();
@@ -150,11 +149,9 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void craftItem() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
-
         for(int i = 0;i<9;i++){
             this.removeStack(i, 1);
         }
-
         this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
                 getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
     }
@@ -169,8 +166,8 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
 
     private boolean hasRecipe() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
-        return recipe.isPresent() && canInsertAmountIntoOutputSlot(recipe.get().value().getResult(null))
-                && canInsertItemIntoOutputSlot(recipe.get().value().getResult(null).getItem());
+        return recipe.isPresent() && this.getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount() <= 64
+                && this.getStack(OUTPUT_SLOT).getItem() == recipe.get().value().getResult(null).getItem() || this.getStack(OUTPUT_SLOT).isEmpty();
     }
 
     @SuppressWarnings("DataFlowIssue")
@@ -184,21 +181,7 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         for(int i = 0; i < this.size(); i++) {
             inv.set(i, this.getStack(i));
         }
-        BananaBaking.LOGGER.info(getWorld().getRecipeManager().listAllOfType(BakingRecipe.Type.INSTANCE).toString());
         return getWorld().getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, new BakingRecipeInput(inv), getWorld());
-    }
-
-    private boolean canInsertItemIntoOutputSlot(Item item) {
-        return this.getStack(OUTPUT_SLOT).getItem() == item || this.getStack(OUTPUT_SLOT).isEmpty();
-    }
-
-
-    private boolean canInsertAmountIntoOutputSlot(ItemStack result) {
-        return this.getStack(OUTPUT_SLOT).getCount() + result.getCount() <= 64;
-    }
-
-    private boolean isOutputSlotEmptyOrReceivable() {
-        return this.getStack(OUTPUT_SLOT).isEmpty() || this.getStack(OUTPUT_SLOT).getCount() < this.getStack(OUTPUT_SLOT).getMaxCount();
     }
 
     @Nullable
