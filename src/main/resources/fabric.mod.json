@@ -21,17 +21,8 @@
 		],
 		"client": [
 			"dontneg.bananabaking.BananaBakingClient"
-		],
-		"fabric-datagen": [
-			"dontneg.bananabaking.BananaBakingDataGenerator"
-		],
-		"rei_client": [
-			"dontneg.bananabaking.rei.BakingREIClientPlugin"
 		]
 	},
-	"mixins": [
-		"bananabaking.mixins.json"
-	],
 	"depends": {
 		"fabricloader": ">=0.15.11",
 		"minecraft": "~1.21",

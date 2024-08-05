@@ -1,15 +1,23 @@
-//package dontneg.bananabaking;
-//
-//import dontneg.bananabaking.datagen.BananaLootTables;
-//import dontneg.bananabaking.datagen.BananaRecipes;
-//import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
-//import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-//
-//public class BananaBakingDataGenerator implements DataGeneratorEntrypoint {
-//	@Override
-//	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
-//		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-//		pack.addProvider(BananaLootTables::new);
-//		pack.addProvider(BananaRecipes::new);
-//	}
-//}
+package dontneg.bananabaking;
+
+import dontneg.bananabaking.datagen.BananaLootTables;
+import dontneg.bananabaking.datagen.BananaRecipes;
+import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+
+@SuppressWarnings("unused")
+public class BananaBakingDataGenerator implements DataGeneratorEntrypoint {
+	@Override
+	public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
+		FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
+		pack.addProvider(BananaLootTables::new);
+		pack.addProvider(BananaRecipes::new);
+	}
+	//,
+	//		"fabric-datagen": [
+	//			"dontneg.bananabaking.BananaBakingDataGenerator"
+	//		],
+	//		"rei_client": [
+	//			"dontneg.bananabaking.rei.BakingREIClientPlugin"
+	//		]
+}

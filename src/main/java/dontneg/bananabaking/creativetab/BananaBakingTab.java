@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 public class BananaBakingTab {
 
     @SuppressWarnings("unused")
-    public static final ItemGroup NOTEBLOCK_GROUP = Registry.register(Registries.ITEM_GROUP,
+    public static final ItemGroup BANANA_BAKING_GROUP = Registry.register(Registries.ITEM_GROUP,
             Identifier.of(BananaBaking.MODID, "banana_baking"),
             FabricItemGroup.builder().displayName(Text.translatable("itemGroup.bananabaking"))
                     .icon(() -> new ItemStack(BananaItems.BANANA_BREAD)).entries((displayContext, entries) -> {

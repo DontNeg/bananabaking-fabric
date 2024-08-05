@@ -12,6 +12,7 @@ import net.minecraft.registry.RegistryWrapper;
 
 import java.util.concurrent.CompletableFuture;
 
+@SuppressWarnings("unused")
 public class BananaLootTables extends FabricBlockLootTableProvider {
     public BananaLootTables(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
         super(dataOutput, registryLookup);

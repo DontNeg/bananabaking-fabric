@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 
+@SuppressWarnings("unused")
 public class BananaBakingClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
