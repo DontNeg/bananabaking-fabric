@@ -1,7 +1,10 @@
 package dontneg.bananabaking.block.entity;
 
+import dontneg.bananabaking.BananaBaking;
 import dontneg.bananabaking.block.BakingOven;
+import dontneg.bananabaking.codec.BakingData;
 import dontneg.bananabaking.recipe.BakingRecipe;
+import dontneg.bananabaking.recipe.BakingRecipeInput;
 import dontneg.bananabaking.screen.BakingScreenHandler;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
@@ -11,17 +14,17 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.recipe.RecipeEntry;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
@@ -33,6 +36,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 
+@SuppressWarnings({"rawtypes"})
 public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
     private static final HashSet<Block> fireBlocks = new HashSet<>();
@@ -83,8 +87,8 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
-        buf.writeBlockPos(this.pos);
+    public Object getScreenOpeningData(ServerPlayerEntity player) {
+        return new BakingData(getPos());
     }
 
     @Override
@@ -98,23 +102,23 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        Inventories.writeNbt(nbt, inventory);
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.writeNbt(nbt, registryLookup);
+        Inventories.writeNbt(nbt, inventory, registryLookup);
         nbt.putInt("baking_oven.progress", progress);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        Inventories.readNbt(nbt, inventory);
+    public void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
+        Inventories.readNbt(nbt, inventory, registryLookup);
         progress = nbt.getInt("baking_oven.progress");
     }
 
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new BakingScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
+        return new BakingScreenHandler(syncId, playerInventory, this, this.propertyDelegate, ScreenHandlerContext.create(world,pos));
     }
 
     public void tick(World world, BlockPos pos, BlockState state) {
@@ -177,11 +181,12 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     private Optional<RecipeEntry<BakingRecipe>> getCurrentRecipe() {
-        SimpleInventory inv = new SimpleInventory(this.size());
+        DefaultedList<ItemStack> inv = DefaultedList.ofSize(this.size());
         for(int i = 0; i < this.size(); i++) {
-            inv.setStack(i, this.getStack(i));
+            BananaBaking.LOGGER.info(this.size() + "");
+            inv.set(i, this.getStack(i));
         }
-        return Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, inv, getWorld());
+        return Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, new BakingRecipeInput(inv), getWorld());
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {
@@ -204,7 +209,7 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return createNbt(registryLookup);
     }
 }

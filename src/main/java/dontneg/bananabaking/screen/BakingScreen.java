@@ -10,7 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class BakingScreen extends HandledScreen<BakingScreenHandler> {
-    private static final Identifier TEXTURE = new Identifier(BananaBaking.MODID, "textures/gui/baking_oven.png");
+    private static final Identifier TEXTURE = Identifier.of(BananaBaking.MODID, "textures/gui/baking_oven.png");
 
     public BakingScreen(BakingScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

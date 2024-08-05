@@ -38,7 +38,6 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
     @Override
-    @SuppressWarnings("deprecation")
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext ctx) {
         return VoxelShapes.fullCube();
     }
@@ -55,13 +54,11 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING)));
     }
@@ -78,7 +75,6 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -91,8 +87,7 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
-    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         if (!world.isClient) {
             NamedScreenHandlerFactory screenHandlerFactory = ((BakingOvenEntity) world.getBlockEntity(pos));
             if (screenHandlerFactory != null) {

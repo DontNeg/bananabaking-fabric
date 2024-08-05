@@ -33,7 +33,7 @@ public class BananaCrop extends CropBlock {
 
     @Override
     public boolean canPlaceAt(BlockState state, WorldView world, BlockPos pos) {
-        return world.getBlockState(pos.up()).isIn(TagKey.of(RegistryKeys.BLOCK,new Identifier("minecraft","leaves"))) &&
+        return world.getBlockState(pos.up()).isIn(TagKey.of(RegistryKeys.BLOCK,Identifier.of("minecraft","leaves"))) &&
                 world.getBlockState(pos.down()).isOf(Blocks.AIR);
     }
 
@@ -56,13 +56,11 @@ public class BananaCrop extends CropBlock {
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState rotate(BlockState state, BlockRotation rotation) {
         return state.with(Properties.HORIZONTAL_FACING, rotation.rotate(state.get(Properties.HORIZONTAL_FACING)));
     }
 
     @Override
-    @SuppressWarnings("deprecation")
     public BlockState mirror(BlockState state, BlockMirror mirror) {
         return state.rotate(mirror.getRotation(state.get(Properties.HORIZONTAL_FACING)));
     }

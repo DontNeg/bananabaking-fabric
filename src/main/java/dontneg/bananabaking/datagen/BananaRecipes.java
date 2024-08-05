@@ -14,28 +14,30 @@ import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class BananaRecipes extends FabricRecipeProvider {
-    public BananaRecipes(FabricDataOutput output) {
-        super(output);
+    public BananaRecipes(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        super(output, registryLookup);
     }
 
     @Override
     public void generate(RecipeExporter exporter) {
         offerShapelessRecipeWithMultipleInputs(exporter, BananaItems.BANANA_SEEDS, List.of(), List.of(
-                TagKey.of(RegistryKeys.ITEM,new Identifier("minecraft","villager_plantable_seeds")),
-                TagKey.of(RegistryKeys.ITEM,new Identifier("c","yellow_dyes")),
-                TagKey.of(RegistryKeys.ITEM,new Identifier("c","yellow_dyes"))),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("minecraft","villager_plantable_seeds")),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("c","yellow_dyes")),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("c","yellow_dyes"))),
                 "",1);
         offerShapelessRecipeWithMultipleInputs(exporter, BananaItems.VANILLA_BEAN_SEEDS, List.of() ,List.of(
-                TagKey.of(RegistryKeys.ITEM,new Identifier("minecraft","villager_plantable_seeds")),
-                TagKey.of(RegistryKeys.ITEM,new Identifier("c","brown_dyes")),
-                TagKey.of(RegistryKeys.ITEM,new Identifier("c","brown_dyes"))),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("minecraft","villager_plantable_seeds")),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("c","brown_dyes")),
+                TagKey.of(RegistryKeys.ITEM,Identifier.of("c","brown_dyes"))),
                 "",1);
         offerShapelessRecipeWithMultipleInputs(exporter, BananaItems.BANANA_BUNCH, List.of(
                 BananaItems.BANANA,
@@ -61,10 +63,10 @@ public class BananaRecipes extends FabricRecipeProvider {
                 .pattern("CFC")
                 .pattern("BBB")
                 .input('B', Items.BRICKS)
-                .input('F', TagKey.of(RegistryKeys.ITEM,new Identifier("minecraft","coals")))
+                .input('F', TagKey.of(RegistryKeys.ITEM,Identifier.of("minecraft","coals")))
                 .input('C', Items.WHITE_CONCRETE_POWDER)
                 .criterion("tick", TickCriterion.Conditions.createTick())
-                .offerTo(exporter, new Identifier(getRecipeName(BananaBlocks.BAKING_OVEN.asItem())));
+                .offerTo(exporter, Identifier.of(getRecipeName(BananaBlocks.BAKING_OVEN.asItem())));
     }
     @SuppressWarnings("unused")
     public static void offerShapelessRecipeWithMultipleInputs(RecipeExporter exporter, ItemConvertible output, List<ItemConvertible> inputItems, List<TagKey<Item>> inputTags, @Nullable String group, int outputCount) {

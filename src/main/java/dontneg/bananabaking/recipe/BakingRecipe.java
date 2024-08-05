@@ -1,25 +1,24 @@
 package dontneg.bananabaking.recipe;
 
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.impl.recipe.ingredient.ShapelessMatch;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.RegistryByteBuf;
+import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.dynamic.Codecs;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BakingRecipe implements Recipe<SimpleInventory> {
+public class BakingRecipe implements Recipe<BakingRecipeInput> {
     private final ItemStack output;
     private final List<Ingredient> recipeItems;
 
@@ -35,11 +34,11 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
 
     @Override
     @SuppressWarnings("UnstableApiUsage")
-    public boolean matches(SimpleInventory inventory, World world) {
+    public boolean matches(BakingRecipeInput inventory, World world) {
         if(world.isClient()) return false;
         List<ItemStack> inputs = new ArrayList<>();
         for(int j = 0; j < 9; ++j) {
-            ItemStack itemstack = inventory.getStack(j);
+            ItemStack itemstack = inventory.getStackInSlot(j);
             if (!itemstack.isEmpty()) {
                 inputs.add(itemstack);
             }
@@ -49,7 +48,7 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public ItemStack craft(SimpleInventory inventory, DynamicRegistryManager registryManager) {
+    public ItemStack craft(BakingRecipeInput input, RegistryWrapper.WrapperLookup lookup) {
         return output;
     }
 
@@ -59,7 +58,7 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
     }
 
     @Override
-    public ItemStack getResult(DynamicRegistryManager registryManager) {
+    public ItemStack getResult(RegistryWrapper.WrapperLookup registriesLookup) {
         return output;
     }
 
@@ -89,38 +88,43 @@ public class BakingRecipe implements Recipe<SimpleInventory> {
         public static final Serializer INSTANCE = new Serializer();
         public static final String ID = "baking";
 
-        public static final Codec<BakingRecipe> CODEC = RecordCodecBuilder.create(in -> in.group(
-                validateAmount(Ingredient.DISALLOW_EMPTY_CODEC, 9).fieldOf("ingredients").forGetter(BakingRecipe::getIngredients),
-                ItemStack.RECIPE_RESULT_CODEC.fieldOf("output").forGetter(r -> r.output)
-        ).apply(in, BakingRecipe::new));
+        private static final MapCodec<BakingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group( (Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients")).flatXmap(ingredients -> {
+                    Ingredient[] ingredients2 = ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).toArray(Ingredient[]::new);
+                    if (ingredients2.length == 0) {
+                        return DataResult.error(() -> "No ingredients for shapeless recipe");
+                    }
+                    if (ingredients2.length > 9) {
+                        return DataResult.error(() -> "Too many ingredients for shapeless recipe");
+                    }
+                    return DataResult.success(DefaultedList.copyOf(Ingredient.EMPTY, ingredients2));
 
-        @SuppressWarnings("SameParameterValue")
-        private static Codec<List<Ingredient>> validateAmount(Codec<Ingredient> delegate, int max) {
-            return Codecs.validate(Codecs.validate(
-                    delegate.listOf(), list -> list.size() > max ? DataResult.error(() -> "Recipe has too many ingredients!") : DataResult.success(list)
-            ), list -> list.isEmpty() ? DataResult.error(() -> "Recipe has no ingredients!") : DataResult.success(list));
+                }, DataResult::success).forGetter(BakingRecipe::getIngredients),(ItemStack.VALIDATED_CODEC.fieldOf("output")).forGetter(recipe -> recipe.output)
+        ).apply(instance, BakingRecipe::new));
+
+        private static final PacketCodec<RegistryByteBuf, BakingRecipe> PACKET_CODEC = PacketCodec.ofStatic(Serializer::write, Serializer::read);
+
+        public static BakingRecipe read(RegistryByteBuf buf) {
+            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
+            inputs.replaceAll(ignored -> Ingredient.PACKET_CODEC.decode(buf));
+            ItemStack itemStack = ItemStack.PACKET_CODEC.decode(buf);
+            return new BakingRecipe(inputs, itemStack);
+        }
+
+        public static void write(RegistryByteBuf buf, BakingRecipe recipe) {
+            buf.writeInt(recipe.getIngredients().size());
+            for (Ingredient ingredient : recipe.getIngredients())
+                Ingredient.PACKET_CODEC.encode(buf, ingredient);
+            ItemStack.PACKET_CODEC.encode(buf, recipe.getResult(null));
         }
 
         @Override
-        public Codec<BakingRecipe> codec() {
+        public MapCodec<BakingRecipe> codec() {
             return CODEC;
         }
 
         @Override
-        public BakingRecipe read(PacketByteBuf buf) {
-            DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
-            inputs.replaceAll(ignored -> Ingredient.fromPacket(buf));
-            ItemStack output = buf.readItemStack();
-            return new BakingRecipe(inputs, output);
-        }
-
-        @Override
-        public void write(PacketByteBuf buf, BakingRecipe recipe) {
-            buf.writeInt(recipe.getIngredients().size());
-            for (Ingredient ingredient : recipe.getIngredients()) {
-                ingredient.write(buf);
-            }
-            buf.writeItemStack(recipe.getResult(null));
+        public PacketCodec<RegistryByteBuf, BakingRecipe> packetCodec() {
+            return PACKET_CODEC;
         }
     }
 }

@@ -7,9 +7,9 @@ import net.minecraft.util.Identifier;
 
 public class BananaRecipes {
     public static void registerRecipes(){
-        Registry.register(Registries.RECIPE_SERIALIZER, new Identifier(BananaBaking.MODID, BakingRecipe.Serializer.ID),
+        Registry.register(Registries.RECIPE_SERIALIZER, Identifier.of(BananaBaking.MODID, BakingRecipe.Serializer.ID),
                 BakingRecipe.Serializer.INSTANCE);
-        Registry.register(Registries.RECIPE_TYPE, new Identifier(BananaBaking.MODID, BakingRecipe.Type.ID),
+        Registry.register(Registries.RECIPE_TYPE, Identifier.of(BananaBaking.MODID, BakingRecipe.Type.ID),
                 BakingRecipe.Type.INSTANCE);
     }
 }

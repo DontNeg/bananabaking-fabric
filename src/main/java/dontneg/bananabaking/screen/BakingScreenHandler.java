@@ -1,32 +1,35 @@
 package dontneg.bananabaking.screen;
 
 import dontneg.bananabaking.block.entity.BakingOvenEntity;
+import dontneg.bananabaking.codec.BakingData;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.slot.Slot;
 
 public class BakingScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
     public final BakingOvenEntity blockEntity;
+    public final ScreenHandlerContext context;
 
-    public BakingScreenHandler(int syncId, PlayerInventory inventory, PacketByteBuf buf) {
-        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(buf.readBlockPos()),
-                new ArrayPropertyDelegate(10));
+    public BakingScreenHandler(int syncId, PlayerInventory inventory, BakingData data) {
+        this(syncId, inventory, inventory.player.getWorld().getBlockEntity(data.pos()), new ArrayPropertyDelegate(10),
+                ScreenHandlerContext.create(inventory.player.getWorld(),inventory.player.getBlockPos()));
     }
 
     public BakingScreenHandler(int syncId, PlayerInventory playerInventory,
-                               BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate) {
+                               BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate, ScreenHandlerContext context) {
         super(BananaScreenHandlers.BAKING_OVEN_SCREEN_HANDLER, syncId);
         checkSize(((Inventory) blockEntity), 10);
         this.inventory = ((Inventory) blockEntity);
+        this.context = context;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = arrayPropertyDelegate;
         this.blockEntity = ((BakingOvenEntity) blockEntity);
@@ -40,7 +43,12 @@ public class BakingScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 6, 20, 52));
         this.addSlot(new Slot(inventory, 7, 38, 52));
         this.addSlot(new Slot(inventory, 8, 56, 52));
-        this.addSlot(new BakingSlot(inventory, 9, 126, 35));
+        this.addSlot(new Slot(inventory, 9, 126, 35){
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
