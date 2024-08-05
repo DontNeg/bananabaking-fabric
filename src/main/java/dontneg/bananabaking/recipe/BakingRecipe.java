@@ -89,17 +89,9 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
         public static final Serializer INSTANCE = new Serializer();
         public static final String ID = "baking";
 
-        private static final MapCodec<BakingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group( (Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients")).flatXmap(ingredients -> {
-                    Ingredient[] ingredients2 = ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).toArray(Ingredient[]::new);
-                    if (ingredients2.length == 0) {
-                        return DataResult.error(() -> "No ingredients for shapeless recipe");
-                    }
-                    if (ingredients2.length > 9) {
-                        return DataResult.error(() -> "Too many ingredients for shapeless recipe");
-                    }
-                    return DataResult.success(DefaultedList.copyOf(Ingredient.EMPTY, ingredients2));
-
-                }, DataResult::success).forGetter(BakingRecipe::getIngredients),(ItemStack.VALIDATED_CODEC.fieldOf("output")).forGetter(recipe -> recipe.output)
+        private static final MapCodec<BakingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+                Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(BakingRecipe::getIngredients),
+                ItemStack.VALIDATED_CODEC.fieldOf("output").forGetter(recipe -> recipe.output)
         ).apply(instance, BakingRecipe::new));
 
         private static final PacketCodec<RegistryByteBuf, BakingRecipe> PACKET_CODEC = PacketCodec.ofStatic(Serializer::write, Serializer::read);

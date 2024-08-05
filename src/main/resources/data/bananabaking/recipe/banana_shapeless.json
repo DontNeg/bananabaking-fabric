@@ -3,11 +3,11 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "bananabaking:banana_pie"
+      "item": "bananabaking:banana_bunch"
     }
   ],
   "result": {
-    "count": 4,
-    "item": "bananabaking:banana_pie_slice"
+    "count": 9,
+    "id": "bananabaking:banana"
   }
 }

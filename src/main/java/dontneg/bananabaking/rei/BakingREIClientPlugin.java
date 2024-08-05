@@ -1,7 +1,7 @@
 //package dontneg.bananabaking.rei;
 //
 //import dontneg.bananabaking.block.BananaBlocks;
-//import dontneg.bananabaking.recipe.BakingRecipe;
+//import dontneg.bananabaking.recipes.BakingRecipe;
 //import dontneg.bananabaking.screen.BakingScreen;
 //import me.shedaniel.math.Rectangle;
 //import me.shedaniel.rei.api.client.plugins.REIClientPlugin;

@@ -33,7 +33,6 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Optional;
 
 @SuppressWarnings({"rawtypes"})
@@ -170,7 +169,6 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
 
     private boolean hasRecipe() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
-
         return recipe.isPresent() && canInsertAmountIntoOutputSlot(recipe.get().value().getResult(null))
                 && canInsertItemIntoOutputSlot(recipe.get().value().getResult(null).getItem());
     }
@@ -180,12 +178,14 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         return fireBlocks.contains(entity.world.getBlockState(entity.getPos().down()).getBlock());
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private Optional<RecipeEntry<BakingRecipe>> getCurrentRecipe() {
         DefaultedList<ItemStack> inv = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         for(int i = 0; i < this.size(); i++) {
             inv.set(i, this.getStack(i));
         }
-        return Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, new BakingRecipeInput(inv), getWorld());
+        BananaBaking.LOGGER.info(getWorld().getRecipeManager().listAllOfType(BakingRecipe.Type.INSTANCE).toString());
+        return getWorld().getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, new BakingRecipeInput(inv), getWorld());
     }
 
     private boolean canInsertItemIntoOutputSlot(Item item) {

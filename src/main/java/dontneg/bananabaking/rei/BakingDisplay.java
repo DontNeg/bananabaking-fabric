@@ -1,13 +1,13 @@
 //package dontneg.bananabaking.rei;
 //
-//import dontneg.bananabaking.recipe.BakingRecipe;
+//import dontneg.bananabaking.recipes.BakingRecipe;
 //import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 //import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 //import me.shedaniel.rei.api.common.entry.EntryIngredient;
 //import me.shedaniel.rei.api.common.util.EntryIngredients;
 //import me.shedaniel.rei.api.common.util.EntryStacks;
 //import net.minecraft.item.Items;
-//import net.minecraft.recipe.RecipeEntry;
+//import net.minecraft.recipes.RecipeEntry;
 //
 //import java.util.ArrayList;
 //import java.util.Collections;
@@ -18,13 +18,13 @@
 //        super(inputs, outputs);
 //    }
 //
-//    public BakingDisplay(RecipeEntry<BakingRecipe> recipe) {
-//        super(getInputList(recipe.value()), List.of(EntryIngredient.of(EntryStacks.of(recipe.value().getResult(null)))));
+//    public BakingDisplay(RecipeEntry<BakingRecipe> recipes) {
+//        super(getInputList(recipes.value()), List.of(EntryIngredient.of(EntryStacks.of(recipes.value().getResult(null)))));
 //    }
 //
-//    private static List<EntryIngredient> getInputList(BakingRecipe recipe) {
-//        if(recipe == null) return Collections.emptyList();
-//        List<EntryIngredient> list = new ArrayList<>(EntryIngredients.ofIngredients(recipe.getIngredients()));
+//    private static List<EntryIngredient> getInputList(BakingRecipe recipes) {
+//        if(recipes == null) return Collections.emptyList();
+//        List<EntryIngredient> list = new ArrayList<>(EntryIngredients.ofIngredients(recipes.getIngredients()));
 //        for(int i = list.size();i<9;){
 //            list.add(EntryIngredient.of(EntryIngredient.empty()));
 //            i = list.size();
