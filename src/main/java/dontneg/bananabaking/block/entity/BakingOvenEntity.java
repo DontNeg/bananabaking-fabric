@@ -181,9 +181,8 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     }
 
     private Optional<RecipeEntry<BakingRecipe>> getCurrentRecipe() {
-        DefaultedList<ItemStack> inv = DefaultedList.ofSize(this.size());
+        DefaultedList<ItemStack> inv = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
         for(int i = 0; i < this.size(); i++) {
-            BananaBaking.LOGGER.info(this.size() + "");
             inv.set(i, this.getStack(i));
         }
         return Objects.requireNonNull(getWorld()).getRecipeManager().getFirstMatch(BakingRecipe.Type.INSTANCE, new BakingRecipeInput(inv), getWorld());
