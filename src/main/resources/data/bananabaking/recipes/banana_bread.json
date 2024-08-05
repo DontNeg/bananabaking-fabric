@@ -18,7 +18,7 @@
     }
   ],
   "output": {
-    "id": "bananabaking:banana_bread",
+    "result": "bananabaking:banana_bread",
     "count": 1
   }
 }
