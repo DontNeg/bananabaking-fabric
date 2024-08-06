@@ -1,10 +1,7 @@
 package dontneg.bananabaking.recipe;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dontneg.bananabaking.BananaBaking;
 import net.fabricmc.fabric.impl.recipe.ingredient.ShapelessMatch;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.RegistryByteBuf;
@@ -79,12 +76,6 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
     @Override
     public RecipeType<?> getType() {
         return Type.INSTANCE;
-    }
-
-    @Override
-    public DefaultedList<ItemStack> getRemainder(BakingRecipeInput input) {
-        BananaBaking.LOGGER.info("REMAINDER");
-        return Recipe.super.getRemainder(input);
     }
 
     public static class Type implements RecipeType<BakingRecipe> {

@@ -27,6 +27,7 @@ public class BakingRecipeInput implements RecipeInput {
         return 10;
     }
 
+    @SuppressWarnings("unused")
     public RecipeMatcher getMatcher(){
         return matcher;
     }

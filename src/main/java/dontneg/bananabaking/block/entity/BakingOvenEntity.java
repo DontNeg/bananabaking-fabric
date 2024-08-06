@@ -9,11 +9,11 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -25,9 +25,11 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -124,7 +126,7 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
             return;
         }
         if(this.getStack(OUTPUT_SLOT).isEmpty() || this.getStack(OUTPUT_SLOT).getCount() < this.getStack(OUTPUT_SLOT).getMaxCount()) {
-            if(this.hasRecipe() && hasFire(this)) {
+            if(hasRecipe() && hasFire(this)) {
                 world.setBlockState(pos,world.getBlockState(pos).with(BakingOven.LIT,true));
                 this.increaseCraftProgress();
                 markDirty(world, pos, state);
@@ -149,9 +151,15 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void craftItem() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
+        Vec3d vec3d = Vec3d.ofCenter(pos);
         for(int i = 0;i<9;i++){
+            if(!this.getStack(i).getRecipeRemainder().isEmpty()){
+                assert world != null;
+                ItemDispenserBehavior.spawnItem(world, this.getStack(i).getRecipeRemainder(), 6, world.getBlockState(pos).get(Properties.HORIZONTAL_FACING), vec3d);
+            }
             this.removeStack(i, 1);
         }
+
         this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
                 getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
     }

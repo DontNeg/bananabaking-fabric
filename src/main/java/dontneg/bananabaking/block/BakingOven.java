@@ -134,6 +134,5 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
                 world.addParticle(ParticleTypes.SMOKE, pos.getX()+0.5, pos.getY()+o+j, pos.getZ()+0.5, 0.0, 0.0, 0.0);
             }
         }
-
     }
 }
