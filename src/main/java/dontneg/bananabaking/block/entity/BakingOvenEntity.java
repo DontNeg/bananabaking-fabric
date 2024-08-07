@@ -1,6 +1,5 @@
 package dontneg.bananabaking.block.entity;
 
-import dontneg.bananabaking.BananaBaking;
 import dontneg.bananabaking.block.BakingOven;
 import dontneg.bananabaking.codec.BakingData;
 import dontneg.bananabaking.recipe.BakingRecipe;
@@ -10,7 +9,6 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -27,11 +25,9 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -153,7 +149,6 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private void craftItem() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
-        Vec3d vec3d = Vec3d.ofCenter(pos);
         for(int i = 0;i<9;i++){
             this.removeStack(i, 1);
         }
@@ -161,7 +156,6 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         int[] remainderSplit = new int[]{(remainder/10)-1, (remainder%10)-1};
         this.setStack(10,new ItemStack(Items.BUCKET,remainderSplit[0] + this.getStack(10).getCount()));
         this.setStack(11,new ItemStack(Items.GLASS_BOTTLE,remainderSplit[1] + this.getStack(11).getCount()));
-        BananaBaking.LOGGER.info(remainderSplit[0] + " " + remainderSplit[1]);
         this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
                 getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
     }

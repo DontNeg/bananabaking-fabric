@@ -13,11 +13,4 @@ public class BananaBakingDataGenerator implements DataGeneratorEntrypoint {
 		pack.addProvider(BananaLootTables::new);
 		pack.addProvider(BananaRecipes::new);
 	}
-	//,
-	//		"fabric-datagen": [
-	//			"dontneg.bananabaking.BananaBakingDataGenerator"
-	//		],
-	//		"rei_client": [
-	//			"dontneg.bananabaking.rei.BakingREIClientPlugin"
-	//		]
 }
