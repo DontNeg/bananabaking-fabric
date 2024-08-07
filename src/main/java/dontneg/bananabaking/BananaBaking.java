@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class BananaBaking implements ModInitializer {
 	public static final String MODID = "bananabaking";
-    public static final Logger LOGGER = LoggerFactory.getLogger("bananabaking");
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
 	@Override
 	public void onInitialize() {

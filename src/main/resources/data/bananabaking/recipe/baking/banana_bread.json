@@ -1,5 +1,6 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 12,
   "ingredients": [
     {
       "item": "bananabaking:banana"
@@ -8,17 +9,17 @@
       "item": "bananabaking:banana"
     },
     {
-      "item": "minecraft:ice"
+      "item": "minecraft:wheat"
     },
     {
-      "item": "minecraft:sweet_berries"
+      "item": "minecraft:egg"
     },
     {
-      "item": "minecraft:glass_bottle"
+      "item": "bananabaking:vanilla_extract"
     }
   ],
   "output": {
     "count": 1,
-    "id": "bananabaking:banana_smoothie"
+    "id": "bananabaking:banana_bread"
   }
 }

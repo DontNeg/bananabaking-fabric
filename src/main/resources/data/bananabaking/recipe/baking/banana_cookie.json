@@ -1,5 +1,6 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 12,
   "ingredients": [
     {
       "item": "minecraft:wheat"

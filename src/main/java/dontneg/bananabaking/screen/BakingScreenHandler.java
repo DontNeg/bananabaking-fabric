@@ -27,7 +27,7 @@ public class BakingScreenHandler extends ScreenHandler {
     public BakingScreenHandler(int syncId, PlayerInventory playerInventory,
                                BlockEntity blockEntity, PropertyDelegate arrayPropertyDelegate, ScreenHandlerContext context) {
         super(BananaScreenHandlers.BAKING_OVEN_SCREEN_HANDLER, syncId);
-        checkSize(((Inventory) blockEntity), 10);
+        checkSize(((Inventory) blockEntity), 12);
         this.inventory = ((Inventory) blockEntity);
         this.context = context;
         inventory.onOpen(playerInventory.player);
@@ -49,7 +49,18 @@ public class BakingScreenHandler extends ScreenHandler {
                 return false;
             }
         });
-
+        this.addSlot(new Slot(inventory, 10, 115, 63){
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
+        this.addSlot(new Slot(inventory, 11, 137, 63){
+            @Override
+            public boolean canInsert(ItemStack stack) {
+                return false;
+            }
+        });
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
         addProperties(arrayPropertyDelegate);

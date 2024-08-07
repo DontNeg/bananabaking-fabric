@@ -1,5 +1,6 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 22,
   "ingredients": [
     {
       "item": "minecraft:milk_bucket"

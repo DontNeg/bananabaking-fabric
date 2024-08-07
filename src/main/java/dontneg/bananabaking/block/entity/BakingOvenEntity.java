@@ -1,5 +1,6 @@
 package dontneg.bananabaking.block.entity;
 
+import dontneg.bananabaking.BananaBaking;
 import dontneg.bananabaking.block.BakingOven;
 import dontneg.bananabaking.codec.BakingData;
 import dontneg.bananabaking.recipe.BakingRecipe;
@@ -15,6 +16,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -38,7 +40,7 @@ import java.util.Optional;
 
 @SuppressWarnings({"rawtypes"})
 public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandlerFactory, ImplementedInventory {
-    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(10, ItemStack.EMPTY);
+    private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(12, ItemStack.EMPTY);
     private static final HashSet<Block> fireBlocks = new HashSet<>();
     private static final int OUTPUT_SLOT = 9;
 
@@ -153,13 +155,13 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
         Vec3d vec3d = Vec3d.ofCenter(pos);
         for(int i = 0;i<9;i++){
-            if(!this.getStack(i).getRecipeRemainder().isEmpty()){
-                assert world != null;
-                ItemDispenserBehavior.spawnItem(world, this.getStack(i).getRecipeRemainder(), 6, world.getBlockState(pos).get(Properties.HORIZONTAL_FACING), vec3d);
-            }
             this.removeStack(i, 1);
         }
-
+        int remainder = recipe.get().value().getRemainder();
+        int[] remainderSplit = new int[]{(remainder/10)-1, (remainder%10)-1};
+        this.setStack(10,new ItemStack(Items.BUCKET,remainderSplit[0] + this.getStack(10).getCount()));
+        this.setStack(11,new ItemStack(Items.GLASS_BOTTLE,remainderSplit[1] + this.getStack(11).getCount()));
+        BananaBaking.LOGGER.info(remainderSplit[0] + " " + remainderSplit[1]);
         this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
                 getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
     }

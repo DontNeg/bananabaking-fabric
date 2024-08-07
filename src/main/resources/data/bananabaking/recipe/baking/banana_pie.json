@@ -1,14 +1,12 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 21,
   "ingredients": [
-    {
-      "item": "minecraft:milk_bucket"
-    },
     {
       "item": "bananabaking:banana"
     },
     {
-      "item": "minecraft:milk_bucket"
+      "item": "bananabaking:banana"
     },
     {
       "item": "minecraft:sugar"
@@ -17,20 +15,14 @@
       "item": "minecraft:egg"
     },
     {
-      "item": "bananabaking:banana"
-    },
-    {
       "item": "minecraft:wheat"
     },
     {
-      "item": "minecraft:wheat"
-    },
-    {
-      "item": "minecraft:wheat"
+      "item": "minecraft:milk_bucket"
     }
   ],
   "output": {
     "count": 1,
-    "id": "bananabaking:banana_cake"
+    "id": "bananabaking:banana_pie"
   }
 }

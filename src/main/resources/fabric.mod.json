@@ -21,6 +21,9 @@
 		],
 		"client": [
 			"dontneg.bananabaking.BananaBakingClient"
+		],
+		"rei_client": [
+			"dontneg.bananabaking.rei.BakingREIClientPlugin"
 		]
 	},
 	"depends": {

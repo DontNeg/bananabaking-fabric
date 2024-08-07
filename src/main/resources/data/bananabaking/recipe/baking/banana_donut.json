@@ -1,5 +1,6 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 21,
   "ingredients": [
     {
       "item": "minecraft:sugar"

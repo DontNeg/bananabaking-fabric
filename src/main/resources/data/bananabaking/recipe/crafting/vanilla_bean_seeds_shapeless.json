@@ -6,10 +6,10 @@
       "tag": "minecraft:villager_plantable_seeds"
     },
     {
-      "tag": "c:brown_dyes"
+      "tag": "c:dyes/brown"
     },
     {
-      "tag": "c:brown_dyes"
+      "tag": "c:dyes/brown"
     }
   ],
   "result": {

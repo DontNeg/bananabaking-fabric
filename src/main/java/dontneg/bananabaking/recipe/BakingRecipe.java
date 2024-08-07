@@ -1,5 +1,6 @@
 package dontneg.bananabaking.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.fabric.impl.recipe.ingredient.ShapelessMatch;
@@ -20,10 +21,12 @@ import java.util.List;
 public class BakingRecipe implements Recipe<BakingRecipeInput> {
     private final ItemStack output;
     private final List<Ingredient> recipeItems;
+    private final int remainder;
 
-    public BakingRecipe(List<Ingredient> ingredients, ItemStack itemStack) {
+    public BakingRecipe(List<Ingredient> ingredients, ItemStack itemStack, int remainder) {
         this.output = itemStack;
         this.recipeItems = ingredients;
+        this.remainder = remainder;
     }
 
     @Override
@@ -61,6 +64,10 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
         return output;
     }
 
+    public int getRemainder() {
+        return remainder;
+    }
+
     @Override
     public DefaultedList<Ingredient> getIngredients() {
         DefaultedList<Ingredient> list = DefaultedList.ofSize(this.recipeItems.size());
@@ -89,7 +96,8 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
 
         private static final MapCodec<BakingRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
                 Ingredient.DISALLOW_EMPTY_CODEC.listOf().fieldOf("ingredients").forGetter(BakingRecipe::getIngredients),
-                ItemStack.VALIDATED_CODEC.fieldOf("output").forGetter(recipe -> recipe.output)
+                ItemStack.VALIDATED_CODEC.fieldOf("output").forGetter(recipe -> recipe.output),
+                Codec.INT.fieldOf("remainder").forGetter(recipe -> recipe.remainder)
         ).apply(instance, BakingRecipe::new));
 
         private static final PacketCodec<RegistryByteBuf, BakingRecipe> PACKET_CODEC = PacketCodec.ofStatic(Serializer::write, Serializer::read);
@@ -98,7 +106,8 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
             DefaultedList<Ingredient> inputs = DefaultedList.ofSize(buf.readInt(), Ingredient.EMPTY);
             inputs.replaceAll(ignored -> Ingredient.PACKET_CODEC.decode(buf));
             ItemStack itemStack = ItemStack.PACKET_CODEC.decode(buf);
-            return new BakingRecipe(inputs, itemStack);
+            int remainder = buf.readVarInt();
+            return new BakingRecipe(inputs, itemStack, remainder);
         }
 
         public static void write(RegistryByteBuf buf, BakingRecipe recipe) {
@@ -106,6 +115,7 @@ public class BakingRecipe implements Recipe<BakingRecipeInput> {
             for (Ingredient ingredient : recipe.getIngredients())
                 Ingredient.PACKET_CODEC.encode(buf, ingredient);
             ItemStack.PACKET_CODEC.encode(buf, recipe.getResult(null));
+            buf.writeVarInt(recipe.getRemainder());
         }
 
         @Override

@@ -1,5 +1,6 @@
 {
   "type": "bananabaking:baking",
+  "remainder": 11,
   "ingredients": [
     {
       "item": "bananabaking:banana_oiled"
