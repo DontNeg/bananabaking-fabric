@@ -171,7 +171,9 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
     private boolean hasRecipe() {
         Optional<RecipeEntry<BakingRecipe>> recipe = getCurrentRecipe();
         return recipe.isPresent() && this.getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount() <= 64
-                && (this.getStack(OUTPUT_SLOT).getItem() == recipe.get().value().getResult(null).getItem() || this.getStack(OUTPUT_SLOT).isEmpty());
+                && (this.getStack(OUTPUT_SLOT).getItem() == recipe.get().value().getResult(null).getItem() || this.getStack(OUTPUT_SLOT).isEmpty()) &&
+                !((((recipe.get().value().getRemainder()/10) + this.getStack(10).getCount())>this.getStack(10).getItem().getMaxCount()) ||
+                        (((recipe.get().value().getRemainder()%10) + this.getStack(11).getCount())>this.getStack(11).getItem().getMaxCount()));
     }
 
     @SuppressWarnings("DataFlowIssue")
