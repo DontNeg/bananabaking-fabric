@@ -20,15 +20,8 @@ public class BananaBlocks {
     public static final Block BANANA_CROP = Registry.register(Registries.BLOCK,Identifier.of(BananaBaking.MODID,"banana_crop"),
             new BananaCrop(AbstractBlock.Settings.copy(Blocks.WHEAT).burnable()));
     public static final Block BAKING_OVEN = registerBlock("baking_oven",
-            new BakingOven(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque().luminance(state -> state.get(BakingOven.LIT) ? 10 : 0)));
+            new BakingOven(AbstractBlock.Settings.copy(Blocks.BRICKS).nonOpaque().luminance(state -> state.get(BakingOven.LIT) ? 10 : 0)),64);
 
-    @SuppressWarnings("SameParameterValue")
-    private static Block registerBlock(String key, Block block){
-        registerBlockItem(key, block,64);
-        return Registry.register(Registries.BLOCK, Identifier.of(BananaBaking.MODID, key), block);
-    }
-
-    @SuppressWarnings("SameParameterValue")
     private static Block registerBlock(String key, Block block, int maxCount){
         registerBlockItem(key, block, maxCount);
         return Registry.register(Registries.BLOCK, Identifier.of(BananaBaking.MODID, key), block);

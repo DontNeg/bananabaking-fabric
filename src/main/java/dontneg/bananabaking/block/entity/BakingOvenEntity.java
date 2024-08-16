@@ -154,10 +154,11 @@ public class BakingOvenEntity extends BlockEntity implements ExtendedScreenHandl
         }
         int remainder = recipe.get().value().getRemainder();
         int[] remainderSplit = new int[]{(remainder/10)-1, (remainder%10)-1};
+        ItemStack result = recipe.get().value().getResult(null);
         this.setStack(10,new ItemStack(Items.BUCKET,remainderSplit[0] + this.getStack(10).getCount()));
         this.setStack(11,new ItemStack(Items.GLASS_BOTTLE,remainderSplit[1] + this.getStack(11).getCount()));
-        this.setStack(OUTPUT_SLOT, new ItemStack(recipe.get().value().getResult(null).getItem(),
-                getStack(OUTPUT_SLOT).getCount() + recipe.get().value().getResult(null).getCount()));
+        this.setStack(OUTPUT_SLOT, new ItemStack(result.getItem(),
+                getStack(OUTPUT_SLOT).getCount() + result.getCount()));
     }
 
     private boolean hasCraftingFinished() {

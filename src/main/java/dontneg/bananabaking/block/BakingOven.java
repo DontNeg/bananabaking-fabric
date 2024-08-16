@@ -37,10 +37,12 @@ public class BakingOven extends BlockWithEntity implements BlockEntityProvider {
         this.setDefaultState(this.getDefaultState().with(LIT,false));
         setDefaultState(getDefaultState().with(Properties.HORIZONTAL_FACING, Direction.NORTH));
     }
+
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext ctx) {
         return VoxelShapes.fullCube();
     }
+
     @Override
     protected MapCodec<? extends BlockWithEntity> getCodec() {
         return CODEC;
